@@ -1,40 +1,48 @@
-package com.jpmc.midascore.foundation;
+package com.jpmc.midascore.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Transaction {
-    private long senderId;
-    private long recipientId;
+@Entity
+public class TransactionRecord {
+
+    @Id
+    @GeneratedValue
+    private long id;
+
+    @ManyToOne
+    private UserRecord sender;
+
+    @ManyToOne
+    private UserRecord recipient;
+
+    @Column(nullable = false)
     private float amount;
 
-    public Transaction() {
+    @Column(nullable = false)
+    private float incentive;
+
+    protected TransactionRecord() {
     }
 
-    public Transaction(long senderId, long recipientId, float amount) {
-        this.senderId = senderId;
-        this.recipientId = recipientId;
+    public TransactionRecord(
+            UserRecord sender,
+            UserRecord recipient,
+            float amount,
+            float incentive) {
+        this.sender = sender;
+        this.recipient = recipient;
         this.amount = amount;
-    }
-
-    public long getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(long senderId) {
-        this.senderId = senderId;
-    }
-
-    public long getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(long recipientId) {
-        this.recipientId = recipientId;
+        this.incentive = incentive;
     }
 
     public float getAmount() {
         return amount;
+    }
+
+    public float getIncentive() {
+        return incentive;
+    }
+}        return amount;
     }
 
     public void setAmount(float amount) {
